@@ -9,6 +9,7 @@ import wx
 import requests
 import json
 from websocket import create_connection
+import PyQt4
 
 class Interface(wx.Frame):
 
@@ -59,7 +60,7 @@ class Interface(wx.Frame):
 		self.SetSizer(vbox)
 
 	def upButton(self, event):
-		result = send_request('Upp')
+		result = send_request('Up')
 		if result != 'OK':
 			ShowMessage(result)
 			print result
