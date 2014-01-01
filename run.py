@@ -58,37 +58,44 @@ class Interface(wx.Frame):
 		vbox.Add(gs, proportion=1, flag=wx.EXPAND)
 		self.SetSizer(vbox)
 
-		
-
 	def upButton(self, event):
-		result = send_request('Up')
+		result = send_request('Upp')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
 
 	def downButton(self, event):
 		result = send_request('Down')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
 
 	def leftButton(self, event):
 		result = send_request('Left')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
 
 	def rightButton(self, event):
 		result = send_request('Right')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
 
 	def selectButton(self, event):
 		result = send_request('Select')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
 
 	def backButton(self, event):
 		result = send_request('Back')
 		if result != 'OK':
+			ShowMessage(result)
 			print result
+
+def ShowMessage(message):
+		wx.MessageBox(message, 'Error', wx.OK | wx.ICON_ERROR)
 
 def send_request(move):
 	headers = {'Content-Type' : 'Contentapplication/json', 'User-Agent' : 'rhys-xbmc-remote'}
