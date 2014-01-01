@@ -9,7 +9,7 @@ import wx
 import requests
 import json
 from websocket import create_connection
-import PyQt4
+#import PyQt4
 
 class Interface(wx.Frame):
 
