@@ -8,6 +8,7 @@ import wx
 #import xbmc_linux_remote
 import requests
 import json
+from websocket import create_connection
 
 class Interface(wx.Frame):
 
@@ -60,35 +61,58 @@ class Interface(wx.Frame):
 		
 
 	def upButton(self, event):
-		send_request('Up')
+		result = send_request('Up')
+		if result != 'OK':
+			print result
 
 	def downButton(self, event):
-		send_request('Down')
+		result = send_request('Down')
+		if result != 'OK':
+			print result
 
 	def leftButton(self, event):
-		send_request('Left')
+		result = send_request('Left')
+		if result != 'OK':
+			print result
 
 	def rightButton(self, event):
-		send_request('Right')
+		result = send_request('Right')
+		if result != 'OK':
+			print result
 
 	def selectButton(self, event):
-		send_request('Select')
+		result = send_request('Select')
+		if result != 'OK':
+			print result
 
 	def backButton(self, event):
-		send_request('Back')
+		result = send_request('Back')
+		if result != 'OK':
+			print result
 
 def send_request(move):
-	url = 'http://192.168.0.4:10000/jsonrpc?request='
 	headers = {'Content-Type' : 'Contentapplication/json', 'User-Agent' : 'rhys-xbmc-remote'}
 	data = {'jsonrpc':'2.0','id': 1}
 	data['method'] = 'Input.'+move
 	data_json = json.dumps(data)
-	#print url+data_json
+	
+	#websocket method
+	#ws = create_connection("ws://192.168.0.4:9090/jsonrpc?request=", headers=headers)
+	#ws.send(data_json)
+	#response =  ws.recv()
+
+	#http method
+	url = 'http://192.168.0.4:10000/jsonrpc?request='
 	r = requests.get(url+data_json, headers=headers)
-	#print r.content
-	#print r.headers
-	if r.status_code != 200:
-		return('There has been some kind of issue. Status = '+r.status_code)
+	response = r.content
+
+	rj = json.loads(response)
+	#print rj
+
+	if 'error' in rj.keys():
+		return(rj['error']['message'])
+	else:
+		return('OK')
 
 if __name__ == '__main__':
 	app = wx.App()
